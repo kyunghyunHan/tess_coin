@@ -15,7 +15,7 @@ address admin {
         const E_NO_ADMIN:u64= 0;
         const E_NO_CAPABILITIES:u64=1;
         const E_HAS_CAPABILITIES:u64=2;
-        public entry fun init_fan(account:&signer){
+        public entry fun init_tess(account:&signer){
             let (burn_capability,freeze_capability,mint_capability)= coin::initialize<TESS>(
                 account,
                 string::utf8(b"Tess Token"),
@@ -28,6 +28,18 @@ address admin {
 
             move_to<CoinCapabilities<TESS>>(account,CoinCapabilities<TESS>{mint_capability,burn_capability,freeze_capability});
 
+        }
+        public fun mint(account:&signer,amount:u64):coin::Coin<TESS>acquires CoinCapabilities{
+            let account_address= signer::address_of(account);
+            assert!(account_address==@admin,E_NO_ADMIN);
+            assert!(exists<CoinCapabilities<TESS>>(account_address),E_NO_CAPABILITIES);
+            let mint_capability= &borrow_global<CoinCapabilities<TESS>>(account_address).mint_capability;
+            coin::mint<TESS>(amount,mint_capability)
+
+        }
+        public fun burn(coins:coin::Coin<TESS>)acquires CoinCapabilities{
+            let burn_capability= &borrow_global<CoinCapabilities<TESS>>(@admin).burn_capability;
+            coin::burn<TESS>(coins,burn_capability);
         }
     }
 }
