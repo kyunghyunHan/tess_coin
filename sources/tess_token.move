@@ -32,16 +32,16 @@ module tesstoken {
         move_to<CoinCapabilities<TESS>>(account, CoinCapabilities<TESS>{mint_capability, burn_capability, freeze_capability});
     }
 
-    public entry fun mint<TESS>(account: &signer, user: address, amount: u64) acquires CoinCapabilities {
+    public  fun mint(account: &signer, _user: address, amount: u64):coin::Coin<TESS> acquires CoinCapabilities {
         let account_address = signer::address_of(account);
         assert!(account_address == @admin, E_NO_ADMIN);
         assert!(exists<CoinCapabilities<TESS>>(account_address), E_NO_CAPABILITIES);
         let mint_capability = &borrow_global<CoinCapabilities<TESS>>(account_address).mint_capability;
-        let coins = coin::mint<TESS>(amount, mint_capability);
-        coin::deposit(user, coins)
+        coin::mint<TESS>(amount, mint_capability)
+       
     }
 
-    public entry fun burn<FANV4>(coins:coin::Coin<TESS>) acquires CoinCapabilities {
+    public  fun burn(coins: coin::Coin<TESS>) acquires CoinCapabilities {
         let burn_capability = &borrow_global<CoinCapabilities<TESS>>(@admin).burn_capability;
         coin::burn<TESS>(coins, burn_capability);
     }

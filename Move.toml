@@ -7,4 +7,4 @@ rev = 'main'
 subdir = 'aptos-move/framework/aptos-framework'
 
 [addresses]
-admin='0x082361956b08274e031a568987e720e0fe0cdd5e9e210b04beb87916db4bec22'
+admin='0xefea625536c9af336ef0f396eb06eaaf2f52eff8a310f82164e937d69301523f'
