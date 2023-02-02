@@ -1,0 +1,10 @@
+[package]
+name = 'tess_token'
+version = '1.0.0'
+[dependencies.AptosFramework]
+git = 'https://github.com/aptos-labs/aptos-core.git'
+rev = 'main'
+subdir = 'aptos-move/framework/aptos-framework'
+
+[addresses]
+admin='0x082361956b08274e031a568987e720e0fe0cdd5e9e210b04beb87916db4bec22'
